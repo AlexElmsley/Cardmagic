@@ -1,5 +1,5 @@
 """
-
+Example of how to check cards in pairs (think Gilbreath)
 
 """
 

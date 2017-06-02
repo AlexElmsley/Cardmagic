@@ -16,27 +16,55 @@ Maybe to change ...
 
 
 """
+# to do: make sure no empty packets are found
 
-function deckcut(deck,where=[]; errormargin=0);
+function deckcut(deck,where=[]; errormargin=0,npiles=2);
 
 ncards=nfields(deck)
 
-indexin=collect(1:ncards)
-
-if where==[]
-	where=rand(Int)
+if npiles>ncards
+	warn("There is no way to make as much piles")
+	npiles=ncards
+	where=collect(1:ncards-1)
 end
 
-where=where+Int(round(errormargin*randn(1)[1]))
 
+ip=collect(1:npiles+1)
+ip[1]=0
+ip[npiles+1]=ncards
+
+indexin=collect(1:ncards)
+
+tocontinue=1
+
+while tocontinue==1
+
+if where==[]
+	where=rand(Int,npiles-1)
+end
+
+#@show where,randn(npiles-1)
+where=where+convert(Array{Int,1},ceil(errormargin*randn(npiles-1)))
 where=mod(where,ncards)
+where=sort(where)
+ip[2:end-1]=where[:]
 
-#indexout=[ indexin[where+1:end]...,indexin[1:where]...]
-indexout1=[indexin[1:where]...]
-indexout2=[indexin[where+1:end]...]
+#@show size(union(where))[1],size(where)[1]
+# Add a test here; if two successive where itentical retry again by putting where=[]
 
-#return deck[indexout]
-return deck[indexout1],deck[indexout2]
+if size(union(ip))[1]==size(ip)[1]
+   tocontinue=0
+     else
+   where=[]
+end
+   
+   
+end
+
+
+
+
+return (((deck[ip[i]+1:ip[i+1]]...) for i=1:npiles)...)
 
 end
 

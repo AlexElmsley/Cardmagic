@@ -5,7 +5,7 @@
 
 """
 
-function deckriffle(deck);
+function deckriffle(deck,blocksize=3);
 
 
 deck1=deckreverse(deck[2])
@@ -33,7 +33,7 @@ ntaken=0
 
 # Take cards from either packet until one is empty,
 # Does not take into account table effects (small verses large packet ...)
-blocksize=3
+
 nc1left=ncards1
 nc2left=ncards2
 ntaken=0

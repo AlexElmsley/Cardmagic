@@ -1,5 +1,8 @@
 """
-
+Collects a series of packets back into the deck. 
+Without argument in the order of the packets.
+If order="Random" is provided, the order is random.
+Otherwise the order specified in the array order is used
 
 """
 
